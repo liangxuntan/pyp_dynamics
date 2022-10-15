@@ -1,0 +1,28 @@
+
+file_name: ../outputmtz/hkl_mode2_light_num270.mtz
+file_type: ccp4_mtz
+
+Miller array info: ../outputmtz/hkl_mode2_light_num270.mtz:IMEAN,SIGIMEAN
+Observation type: xray.intensity
+Type of data: double, size=13455
+Type of sigmas: double, size=13455
+Number of Miller indices: 13455
+Anomalous flag: False
+Unit cell: (66.9, 66.9, 40.8, 90, 90, 120)
+Space group: P 63 (No. 173)
+
+Selected data:
+  ../outputmtz/hkl_mode2_light_num270.mtz:IMEAN,SIGIMEAN
+  Observation type: xray.intensity
+
+Input crystal symmetry:
+  Unit cell: (66.9, 66.9, 40.8, 90, 90, 120)
+  Space group: P 63 (No. 173)
+
+The supplied intensities will be used to estimate
+ amplitudes in the following way:  
+ Fobs = Sqrt[ (Iobs + Sqrt(Iobs**2 + 2sigmaIobs**2))/2 ]
+ Sigmas are estimated in a similar manner.
+
+Writing MTZ file: ../outputfobs/hkl_mode2_light_num270_fobs.mtz
+
