@@ -1,0 +1,22 @@
+synthetic dataset. It should be a set that only changes in the concentration of a photoproduct:
+
+1) use PYP dark dataset, PDB 5HD3, and the 3ps dataset 5HDS.
+
+Use the coordinates to calculate structure factors, using CCP4 or phenix. se the same resolution cutoff as the machine learning paper did, which was 2 or 2.5 Angstrom? The objective is to prepare an input dataset with the same dimension, so we want the same reflections
+
+2) check that F-calc (dark) and F-calc(3ps) are on the same scale, by calculating phases from the dark, and computing difference maps for 3ps minus dark. They should look like the one in the paper Pande et al
+
+3) For the number of time delays in the input dataset (was this 110,000?), generate an exponential decay. It should simply be a list of values (x) that decays exponentially from 1 to (almost) 0. Use a time constant that is about 1/3 of the total time points, so that the full decay included in the matrix is 3 times the time constant. That will decay to small value and properly cover the decay range. This is in arbitrary time values.
+
+4) Make a linear combination of x*F-calc(dark) + (1-x)*F-calc(3ps) for the time series x. This series should show the time dependent linear combination of the structure factor amplitudes of only two states without any noise.
+
+4) Take the square of all the amplitudes to turn into intensities
+
+5) Input this synthetic dataset into the pipeline. Also do a linear SVD decomposition
+
+btw making the x*F-calc(dark) + (1-x)*F-calc(3ps) might need you to sort both amplitude files for the same indexes. The two f-calc files might not have the identical order or even miss some reflections, so it is probably not a simple case of taking two columns and making the product and sum.
+
+Possibly the python package reciprocalshapceship might be able to sort the data.
+
+The PYPref, PYPfast, PYPslow, PYP3ps, and PYP200ns structures are deposited in the Protein Data Bank together with their respective weighted difference structure factor amplitudes under accession codes 5HD3, 5HDC, 5HDD, 5HDS, and 5HD5, respectively
+

@@ -1,0 +1,37 @@
+% run_PYP_femtosec_concat_x_USV
+%
+  addpath('pathtosna/sna/release/2.0/connecting',...
+          'pathtosna/sna/release/2.0/core',...
+          'pathtosna/sna/release/2.0/validation',...
+          'pathtosna/sna/release/2.0/variations', ...
+          'pathtodataPYP/dataPYP', ...
+          'pathtodataPYP/dataPYP/dataPsi')
+% loading data file located on the local host machine
+load('pathtodataPYP/dataPYP/dataPYP_femto_nSpvarss_nBrgpvarbrg.mat','T');
+X1 = T'; 
+sigmaOpt=pvarsig;
+sigmastr=sprintf('%3.2E',sigmaOpt);
+dataPsi_template=(['pathtodataPYP/dataPYP/dataPsi/dataPsi_nSpvarscc_nNpvarnn_nA0_sigma' sigmastr '_nEigspvareigs.mat']);
+read_format = 'double';
+D = pvarbrg;          % # of pixels (Bragg points)
+N = pvarss;         % # of snapshots before concatenation
+n = pvardpN;           % compatible with dp_N*_n*_c* folder
+concatOrder = pvarcc; % concatenation order
+num_copy = pvarcopyt;    % # of copies (topos) for unwrapping
+ell = pvareigs;            % # of \psi's for projecting
+%ell = 2;
+
+sigmaList0 = 10.^linspace(log10(sigmaOpt/10),log10(sigmaOpt),7);
+sigmaList1 = 10.^linspace(log10(sigmaOpt),log10(sigmaOpt*20),10);
+sigmaList = unique([sigmaList0 sigmaList1]);
+
+% compute SVD for different sigma values (sigma search)
+for jj=7%1:16 %(jj=7 gives sigmaList=1)
+  sigma = sigmaList(jj);
+  dataPsi = sprintf(dataPsi_template,num2str(sigma,'%.4f'));
+  [U,S,V] = extract_topos_chronos(ell,X1,dataPsi,read_format,D,N,n,concatOrder,num_copy);
+  fileNameUSV = ['SVD_results_sigma' num2str(sigma,'%.2f') '.mat'];
+  save(fileNameUSV,'U','S','V','-v7.3')
+end
+
+%EOF

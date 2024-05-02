@@ -1,0 +1,54 @@
+% plot_DM
+% plots diffusion map eigenvalues and eigenfunctions
+% copyright (c) Ourmazd Lab 2018
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+addpath('./Utilities/');
+set(0,'DefaultAxesFontSize',16);
+set(0,'DefaultLineLineWidth', 2);
+set(0,'defaultfigurecolor','w')
+
+% insert parameter values to be recorded on the figures
+myTitle={'\fontsize{16}\color{black}{nS=..., nC=..., nN=...}'};
+
+% % load embedding output 
+%sigmastr=sprintf('%3.2E',1420);
+%load(['~/pyp_run11/dataPYP/dataPsi/dataPsi_nS115031_nN15000_nA0_sigma' sigmastr '_nEigs4.mat']) 
+sigmastr=sprintf('%3.2E',0.29);
+load(['~/Desktop/pypscripts/pyp_run11/dataPYP/dataPsi/dataPsi_nS115031_nN15000_nA0_sigma' sigmastr '_nEigs4.mat']) 
+
+[nS, nEigs] = size(psi);
+
+lambda_=abs(lambda(2:end)); 
+% The first element of lambda is the Remanian measure, so we do not plot it.
+[~,idSort] = sort(lambda_,'descend');
+psi_ = psi(:,idSort);
+
+% %plot eigenvalues 
+figure
+bar(lambda_(idSort));
+set(gca,'linewidth',2) 
+xlabel('Eigenvalue index'); ylabel('Eigenvalue');
+title(myTitle); 
+
+
+ % %plot eigenvectors 
+ kk=0;
+ nFrame=5;
+ for ii=1:nEigs
+     if mod(ii,nFrame)==1 
+       kk=0;   
+       figure; 
+       ha = tight_subplot(nFrame,1,[.02 .02],[.1 .1],[.1 .05]);
+     end
+     kk=kk+1; 
+     axes(ha(kk));
+
+     plot(psi_(:,ii),'b'); %xlim([-50,430]); 
+     if mod(ii,nFrame)==1, title(myTitle); end
+     ylabel(['\psi_{',int2str(ii),'}']);
+   
+     if kk<nFrame, set(ha(1:nFrame),'XTickLabel',''); end
+     if kk==nFrame, xlabel('# of snapshots'); end
+ end
+  
+ %EOF
