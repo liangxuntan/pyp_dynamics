@@ -4,7 +4,7 @@ This is a matlab-based manifold machine learning framework based on non-linear L
 
 ## Documentation
 
-* (raw_data) Input data from : a)rawdata b)linear combination of structure factors of pyp light and dark state c)add gaussian noise to timing of each snapshot in rawdata and reorder
+* Input PYP light and dark states SFX data from : a) raw data from link in base_pyprun/readme b) linear combination of structure factors of pyp light and dark state c) inject gaussian noise and reorder snapshots in rawdata to simulate timing jitter in SFX experiments
 
 * (makescripts) Generate scripts for running NLSA code on servers: makescripts and copy to basefolder/NLSA and basefolder/sna/release/2.0/variations
 
